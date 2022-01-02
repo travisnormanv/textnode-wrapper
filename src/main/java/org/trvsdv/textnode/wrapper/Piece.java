@@ -14,7 +14,7 @@ class Piece extends Position {
     private final TextNode textNode;
     private final int depth;
 
-    public Piece(@NotNull TextNode textNode, @NotNull Position position, int depth) {
+    public Piece(TextNode textNode, Position position, int depth) {
         this.textNode = textNode;
         setStart(position.getStart());
         setEnd(position.getEnd());
@@ -33,7 +33,7 @@ class Piece extends Position {
         return depth;
     }
 
-    public Piece createReltativeTo(@NotNull TextNode textNode, int length, int depth) {
+    public Piece createReltativeTo(TextNode textNode, int length, int depth) {
         return new Piece(textNode, new Position(getEnd() + 1, getEnd() + length), depth);
     }
 

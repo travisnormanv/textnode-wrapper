@@ -1,7 +1,5 @@
 package org.trvsdv.textnode.wrapper;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.NodeVisitor;
@@ -35,7 +33,7 @@ class Extractor implements NodeVisitor {
         return compositions;
     }
 
-    private @NotNull Piece createReferencePiece(@NotNull TextNode textNode, @Nullable Piece piece, int depth) {
+    private Piece createReferencePiece(TextNode textNode, Piece piece, int depth) {
         Piece referencePiece;
         int length = textNode.getWholeText().length();
 
@@ -46,7 +44,7 @@ class Extractor implements NodeVisitor {
         return referencePiece;
     }
 
-    private @Nullable Piece startInBound(@NotNull Piece piece, @NotNull Position position) {
+    private Piece startInBound(Piece piece, Position position) {
         if(piece.getStart() != position.getStart()) {
             logger.trace("Split textNode at start: {}", position.getStart());
             return piece.split(position.getStart());
@@ -55,14 +53,14 @@ class Extractor implements NodeVisitor {
         return null;
     }
 
-    private void endInBound(@NotNull Piece piece, @NotNull Position position) {
+    private void endInBound(Piece piece, Position position) {
         if(piece.getEnd() != position.getEnd()) {
             logger.trace("Split piece at end: {}", position.getEnd());
             piece.split(position.getEnd() + 1);
         }
     }
 
-    private void splitPiece(@NotNull Piece piece, @NotNull Position position) {
+    private void splitPiece(Piece piece, Position position) {
         if(piece.equals(position)) {
             logger.trace("Skip piece splitting if indices are equal");
             return;
@@ -80,7 +78,7 @@ class Extractor implements NodeVisitor {
 
 
     @Override
-    public void head(@NotNull Node node, int depth) {
+    public void head(Node node, int depth) {
         if(node instanceof TextNode textNode) {
             if(pos < positions.size()) {
                 preProcessPiece = createReferencePiece(textNode, preProcessPiece, depth);
@@ -89,7 +87,7 @@ class Extractor implements NodeVisitor {
         }
     }
 
-    private void createCompositions(@NotNull Piece piece, @NotNull Position position) {
+    private void createCompositions(Piece piece, Position position) {
         if(piece.compare(position) != Position.Bound.OUTBOUND) {
             if(compositions.size() < pos + 1) {
                 Composition composition = new Composition(String.valueOf(pos), piece);
@@ -97,7 +95,7 @@ class Extractor implements NodeVisitor {
             }
             else compositions.get(pos).addPiece(piece);
 
-            logger.trace("Add piece to composition, text: {}, depth: {}", pos, piece.getTextNode(), piece.getDepth());
+            logger.trace("Add piece to composition, text: {}, depth: {}", piece.getTextNode(), piece.getDepth());
         }
 
         if(piece.equals(position) || piece.getEnd() == position.getEnd()) {
@@ -108,7 +106,7 @@ class Extractor implements NodeVisitor {
     }
 
     @Override
-    public void tail(@NotNull Node node, int depth) {
+    public void tail(Node node, int depth) {
         if(node instanceof TextNode textNode) {
             if(pos < positions.size()) {
                 postProcessPiece = createReferencePiece(textNode, postProcessPiece, depth);

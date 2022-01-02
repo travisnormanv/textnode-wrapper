@@ -13,12 +13,12 @@ class TextExtractor implements NodeVisitor {
     }
 
     @Override
-    public void head(@NotNull Node node, int depth) {
+    public void head(Node node, int depth) {
         if(node instanceof TextNode) builder.append(((TextNode) node).getWholeText());
     }
 
     @Override
-    public void tail(@NotNull Node node, int depth) {}
+    public void tail(Node node, int depth) {}
 
     public String text() {
         return builder.toString();
