@@ -16,7 +16,7 @@ class Composition {
     private TextNode transformNode;
     private final String id;
 
-    public Composition(@NotNull String id, @NotNull Piece piece) {
+    public Composition(String id, Piece piece) {
         this.id = id;
         text = new StringBuilder();
         text.append(piece.getText());
@@ -25,13 +25,13 @@ class Composition {
         transformNode = piece.getTextNode();
     }
 
-    public void addPiece(@NotNull Piece piece) {
+    public void addPiece(Piece piece) {
         text.append(piece.getTextNode().getWholeText());
         if(pieces.get(pieces.size() - 1).getDepth() > piece.getDepth()) transformNode = piece.getTextNode();
         pieces.add(piece);
     }
 
-    public void wrap(@NotNull Element wrapperEl) {
+    public void wrap(Element wrapperEl) {
         transform();
         wrapperEl.text(transformNode.getWholeText());
         transformNode.replaceWith(wrapperEl);
@@ -51,11 +51,11 @@ class Composition {
         transformNode.text(text.toString());
     }
 
-    public @NotNull String getId() {
+    public String getId() {
         return id;
     }
 
-    public @NotNull String getText() {
+    public String getText() {
         return text.toString();
     }
 }
