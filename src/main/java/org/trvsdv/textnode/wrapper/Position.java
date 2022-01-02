@@ -6,7 +6,7 @@ import java.security.InvalidParameterException;
  * Position of a text string.
  * @author travisdev
  */
-class Position {
+public class Position {
 
     private int start;
     private int end;
