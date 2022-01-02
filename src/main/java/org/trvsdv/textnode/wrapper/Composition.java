@@ -1,6 +1,5 @@
 package org.trvsdv.textnode.wrapper;
 
-import org.jetbrains.annotations.NotNull;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 
